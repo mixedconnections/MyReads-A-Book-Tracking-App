@@ -17,6 +17,7 @@ class BooksApp extends React.Component {
             BooksAPI.getAll().then(books => {
                this.setState({books: books})
         })
+
    }
 
 
@@ -37,18 +38,13 @@ class BooksApp extends React.Component {
 
   render() {
 	
-      const state = this.state;
-      const currentlyReading = state.books.filter((book) => book.shelf === 'currentlyReading');
-      const wantToRead = state.books.filter((book) => book.shelf === 'wantToRead');
-      const read = state.books.filter((book) => book.shelf === 'read');
-
 	return (
  		<div className="app">
 
        		  <Route path="/search" exact render={({history}) => (
 	                           <Search
 	                               history={history}
-	                               books={[currentlyReading, wantToRead, read]}
+				       books={this.state.books}
 	                               onCategoryChange={this.onCategoryChange}
 	                           />
 	          )}/>
@@ -61,9 +57,7 @@ class BooksApp extends React.Component {
 			     {
 			            <BookCategories
 				     	onCategoryChange={this.onCategoryChange}
-			                currentlyReading={currentlyReading}
-			                wantToRead={wantToRead}
-			                read={read}
+				        books={this.state.books}
 			            />
                              }
 		       </div>
