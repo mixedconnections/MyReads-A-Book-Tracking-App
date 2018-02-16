@@ -22,18 +22,15 @@ class BooksApp extends React.Component {
 
 
   onCategoryChange = (book, shelf) => {
-	          BooksAPI.update(book, shelf).then(
-                     this.setState((state) => ({
-                        books: state.books.map(b => {
-                        if (b.title === book.title) {
-                             b.shelf = shelf;
-                         } 
-                        return b
-                     })
-                        
-                     }))
-                  )
-     };
+                 if (book.shelf !== shelf) {
+	            BooksAPI.update(book, shelf).then(() => {
+			       book.shelf = shelf
+			       this.setState(state => ({
+			         books: state.books.filter(b => b.id !== book.id).concat([ book ])
+			       }))
+		     })
+		}
+   };
 
 
   render() {
